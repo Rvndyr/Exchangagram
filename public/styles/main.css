@@ -3,7 +3,7 @@
   background-color: red;
 }
 
-.banner {
+/*.banner {
     background-attachment: scroll,	fixed;
     background-color: #666;
     background-image: url(images/overlay.png), url(images/banner.jpg);
@@ -17,4 +17,8 @@
     color: #fff;
     padding: 12em 0 20em 0;
     text-align: center;
+}*/
+
+nav {
+  text-decoration-color: black;
 }
