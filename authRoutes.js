@@ -1,38 +1,69 @@
 const express = require('express');
-const router = express.router();
 const parser = require('body-parser');
-
-router.use(parser.json());
-
-
-router.get('/posts', (request, response, next) => {
+const passport = require('passport');
+const LocaleStraegy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 
-    next();
+
+const app = express();
+
+app.use(parson.json());
+
+app.use('/', express.static('/public'));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.get('/api/posts/:id', (request, response) => {
+    response.header('content-type', 'application/json');
+    response.send({
+
+        "success": false
+    });
+
+    response.send({
+        "success": True
+    });
+
 });
 
 
-router.post('/posts', (request, response, next) => {
+passport.serializeUser((user, done) => {
 
-
-    next();
+    done(null, user)
 });
+passport.deserializeUser((user, done) => {
 
-router.put('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id);
-
-    next();
-});
-
-router.delete('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id);
-
-    next();
+    done(null, user)
 });
 
 
 
-router.use((request, response) => {
-    response.header('Content-Type', 'application/json');
-    response.send(data)
-});
+passport.use(new LocalStrategy({
+                usernameField: 'email',
+                passwordField: 'password',
+            }, (email, password, done) => {
+
+                if (!email || !password) {
+                    return done('f-ed up', {}, {});
+                }
+                return done(null, { success: true });
+
+                app.post('/auth/login', (request, response, next) => {
+                    passport.authenticate('local', (err, user, info) => {
+                        if (err) console.log(err);
+                        if (!user) console.log(user);
+
+                        request.logIn(user, (err) => {
+                            if (err) return next(err);
+                            // if we are here, user has logged in!
+                            response.header('Content-Type', 'application/json');
+
+                            response.send({
+                                success: true,
+                            });
+                        });
+                    })(request, response, next);
+                });
