@@ -1,0 +1,20 @@
+.main-head {
+  height: 50px;
+  background-color: red;
+}
+
+.banner {
+    background-attachment: scroll,	fixed;
+    background-color: #666;
+    background-image: url(images/overlay.png), url(images/banner.jpg);
+    background-position: top left,	center center;
+    background-position-x: left, center;
+    background-position-y: top, center;
+    background-repeat: repeat,	no-repeat;
+    background-repeat-x: repeat, no-repeat;
+    background-repeat-y: repeat, no-repeat;
+    background-size: auto,	cover;
+    color: #fff;
+    padding: 12em 0 20em 0;
+    text-align: center;
+}
