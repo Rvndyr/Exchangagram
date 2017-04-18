@@ -19,13 +19,13 @@ router.post('/posts', (request, response, next) => {
 });
 
 router.put('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id);
+    const id = parseInt(request.params.id, 10);
 
     next();
 });
 
 router.delete('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id);
+    const id = parseInt(request.params.id, 10);
 
     next();
 });
