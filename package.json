@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/supervisor index.js"
   },
-  "author": "",
+  "author": "Jose, Rich, Randy",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "sqlite": "^2.5.0"
+  },
+  "devDependencies": {
+    "supervisor": "^0.12.0"
   }
 }
