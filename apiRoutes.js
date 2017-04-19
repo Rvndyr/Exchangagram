@@ -4,6 +4,10 @@ const parser = require('body-parser');
 
 router.use(parser.json());
 
+app.use('/', express.static('/public'));
+
+
+// GET ROUTES
 
 router.get('/posts', (request, response, next) => {
 
@@ -11,31 +15,42 @@ router.get('/posts', (request, response, next) => {
     next();
 });
 
+router.get('/users', (request, response, next) => {
 
-router.post('/posts', (request, response, next) => {
+    next()
+}); {
 
+    router.get('/users/followers', (request, response, next) => {
 
-    next();
-});
+        next();
+    })
 
-router.put('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
+    // POST ROUTES
 
-    next();
-});
-
-router.delete('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
+    router.post('/posts', (request, response, next) => {
 
 
+        next();
+    });
 
-router.use((request, response) => {
-    response.header('Content-Type', 'application/json');
-    response.send(data)
-});
+    router.put('/post/:id', (request, response, next) => {
+        const id = parseInt(request.params.id, 10);
+
+        next();
+    });
+
+    router.delete('/post/:id', (request, response, next) => {
+        const id = parseInt(request.params.id, 10);
+
+        next();
+    });
 
 
-module.exports = apiRouter
+
+    router.use((request, response) => {
+        response.header('Content-Type', 'application/json');
+        response.send(data)
+    });
+
+
+    module.exports = apiRouter
