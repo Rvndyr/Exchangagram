@@ -4,6 +4,8 @@ const parser = require('body-parser');
 
 router.use(parser.json());
 
+app.use('/', express.static('/public'));
+
 
 // GET ROUTES
 

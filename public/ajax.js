@@ -58,10 +58,24 @@ window.ajax = (function() {
             request.send(JSON.stringify(data));
         });
     } // DELETE
-    return {
-        GET,
-        POST,
-        PUT,
-        DELETE,
-    }
+    function render(posts) {
+      const container = document.querySelector('.js-post');
+      container.innerHTML = '';
+      for (const post of posts) {
+        const div = document.createElement('div');
+        div.innerHTML =
+        `
+          <div class="col s12 m7">
+            <div class="card hoverable center-align">
+              <div class="card-image z-depth-3">
+                <img src="images/sample-1.jpg">
+                <span class="card-title">Card Title</span>
+              </div>
+            </div>
+          </div>
+        `
+        div.classList.add('row')
+        container.appendChild(div)
+
+
 })();
