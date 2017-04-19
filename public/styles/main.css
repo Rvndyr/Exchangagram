@@ -18,7 +18,19 @@
     padding: 12em 0 20em 0;
     text-align: center;
 }*/
+body{
+background-color: #eeeeee;
+}
 
 #app nav ul a{
   color: white;
+}
+
+.cardPosition {
+  margin-top: 10%;
+}
+
+nav div a img{
+  max-height: 60px;
+  width: 60px
 }
