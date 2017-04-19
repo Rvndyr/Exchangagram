@@ -1,14 +1,14 @@
 const express = require('express');
 const parser = require('body-parser');
 const passport = require('passport');
-const LocaleStraegy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 
 
 const app = express();
 
-app.use(parson.json());
+app.use(parser.json());
 
 app.use('/', express.static('/public'));
 
@@ -42,28 +42,31 @@ passport.deserializeUser((user, done) => {
 
 
 passport.use(new LocalStrategy({
-                usernameField: 'email',
-                passwordField: 'password',
-            }, (email, password, done) => {
+    usernameField: 'email',
+    passwordField: 'password',
+}, (email, password, done) => {
 
-                if (!email || !password) {
-                    return done('f-ed up', {}, {});
-                }
-                return done(null, { success: true });
+    if (!email || !password) {
+        return done('f-ed up', {}, {});
+    }
+    return done(null, { success: true });
+}));
 
-                app.post('/auth/login', (request, response, next) => {
-                    passport.authenticate('local', (err, user, info) => {
-                        if (err) console.log(err);
-                        if (!user) console.log(user);
+app.post('/auth/login', (request, response, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) console.log(err);
+        if (!user) console.log(user);
 
-                        request.logIn(user, (err) => {
-                            if (err) return next(err);
-                            // if we are here, user has logged in!
-                            response.header('Content-Type', 'application/json');
+        request.logIn(user, (err) => {
+            if (err) return next(err);
+            // if we are here, user has logged in!
+            response.header('Content-Type', 'application/json');
 
-                            response.send({
-                                success: true,
-                            });
-                        });
-                    })(request, response, next);
-                });
+            response.send({
+                success: true,
+            });
+        });
+    })(request, response, next);
+});
+
+module.exports = app;
