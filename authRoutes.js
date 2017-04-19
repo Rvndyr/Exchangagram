@@ -47,10 +47,12 @@ passport.use(new LocalStrategy({
 }, (email, password, done) => {
 
     if (!email || !password) {
-        return done('f-ed up', {}, {});
+        return done('Not Valid', {}, {});
     }
     return done(null, { success: true });
 }));
+
+
 
 app.post('/auth/login', (request, response, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -61,7 +63,6 @@ app.post('/auth/login', (request, response, next) => {
             if (err) return next(err);
             // if we are here, user has logged in!
             response.header('Content-Type', 'application/json');
-
             response.send({
                 success: true,
             });
