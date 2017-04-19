@@ -4,6 +4,8 @@ const parser = require('body-parser');
 
 router.use(parser.json());
 
+app.use('/', express.static('/public'));
+
 
 router.get('/posts', (request, response, next) => {
 
