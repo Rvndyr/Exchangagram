@@ -58,10 +58,13 @@ window.ajax = (function() {
             request.send(JSON.stringify(data));
         });
     } // DELETE
+
     function render(posts) {
       const container = document.querySelector('.js-post');
       container.innerHTML = '';
+      console.log(posts)
       for (const post of posts) {
+        console.log(post)
         const div = document.createElement('div');
         div.innerHTML =
         `
