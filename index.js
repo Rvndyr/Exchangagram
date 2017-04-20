@@ -14,8 +14,6 @@ const port = 9999;
 
 const DB_NAME = './database.sqlite';
 
-app.use(require('./apiRoutes'))
-
 
 app.use('/', express.static( 'public', {
 	'index': [ 'index.html' ]
