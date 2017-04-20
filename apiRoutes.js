@@ -13,23 +13,12 @@ app.use('/', express.static('/public'));
 // GET ROUTES
 
 router.get('/posts', (request, response, next) => {
-
-
     next();
 });
 
 // added this example for you to work off of rich
 router.get('/users', (request, response, next) => {
-    exchanger.getUsers(request, response).then((data) => {
-    response.header('Content-Type', 'application/json');
-    response.send({ users: data });
-    }).catch((e) => {
-        response.status(401);
-    });
-
-
-   // next(); had to comment out rich to get /users to work
-
+    next();
 });
 
 router.get('/users/:id', (request, response, next) => {
@@ -125,11 +114,13 @@ router.delete('/followers/:followers_id', (request, response, next) => {
 // middle ware
 
 // had to comment this out rich or public would not serve
-/* router.use((request, response) => {
+router.use((request, response) => {
     response.header('Content-Type', 'application/json');
-    response.send(data)
-}); */
+    exchanger.getUsers().then((data) => {
+        console.log(data);
+
+        response.send(data);
+    });
+});
 
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
-
-
