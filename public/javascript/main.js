@@ -1,10 +1,32 @@
 (function() { // protect the lemmings
 // render the igPosts
-const posts = [{
-  title: "test first post",
-  img: "images/sample-1.jpg"
-}]
-render(posts)
+
+    function render(posts) {
+      const container = document.querySelector('.js-post');
+      container.innerHTML = '';
+      console.log(posts)
+      for (const post of posts) {
+        console.log(post)
+        const div = document.createElement('div');
+        div.innerHTML =
+        `
+          <div class="col s12 m7">
+            <div class="card hoverable center-align">
+              <div class="card-image z-depth-3">
+                <img src="images/sample-1.jpg">
+                <span class="card-title">Card Title</span>
+              </div>
+            </div>
+          </div>
+        `
+        div.classList.add('row')
+        container.appendChild(div)
+
+        const posts = [{
+          title: "test first post",
+          img: "images/sample-1.jpg"
+        }];
+        render(posts)
 
 
   // GET('/posts')
