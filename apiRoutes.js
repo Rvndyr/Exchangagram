@@ -1,11 +1,14 @@
 const express = require('express');
-const router = express.router();
+const app = express();
+const router = express.Router();
 const parser = require('body-parser');
+const exchanger = require('./exchanger');
+const db = require('sqlite');
+const DB_NAME = './database.sqlite';
 
 router.use(parser.json());
 
 app.use('/', express.static('/public'));
-
 
 // GET ROUTES
 
@@ -14,11 +17,19 @@ router.get('/posts', (request, response, next) => {
 
     next();
 });
-
+// added this example for you to work off of rich
 router.get('/users', (request, response, next) => {
+    exchanger.getUsers(request, response).then((data) => {
+    response.header('Content-Type', 'application/json');
+    response.send({ users: data });
+    }).catch((e) => {
+        response.status(401);
+    });
 
-    next();
-})
+
+   // next(); had to comment out rich to get /users to work
+
+});
 
 router.get('/users/:id', (request, response, next) => {
     const id = parseInt(request.params.id, 10);
@@ -121,10 +132,10 @@ router.delete('/followers/:followers_id', (request, response, next) => {
 
 // middle ware
 
-router.use((request, response) => {
+// had to comment this out rich or public would not serve
+/* router.use((request, response) => {
     response.header('Content-Type', 'application/json');
     response.send(data)
-});
+}); */
 
-
-module.exports = apiRouter
+ module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
