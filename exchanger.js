@@ -3,9 +3,17 @@ const DB_NAME = './database.sqlite';
 
 const exchanger = {};
 
+const filterOutKey = (data, keyToFilter) => {
+    return data.map((user) => Object.assign(
+        {},
+        ...Object.keys(user).filter(userKey => userKey !== keyToFilter)
+                            .map(key => ({[key]: user[key]}))
+    ));
+}
+
 // get only users list
 exchanger.getUsers = () => {
-    return db.all(`SELECT * FROM users`)
+    return db.all(`SELECT * FROM users`).then((data) => filterOutKey(data, 'PASSWORD'));
 };
 
 // Get all users + their activity

@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
 const parser = require('body-parser');
 const exchanger = require('./exchanger');
@@ -7,8 +6,6 @@ const db = require('sqlite');
 const DB_NAME = './database.sqlite';
 
 router.use(parser.json());
-
-app.use('/', express.static('/public'));
 
 // GET ROUTES
 
