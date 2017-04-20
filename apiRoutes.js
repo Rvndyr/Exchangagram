@@ -1,54 +1,130 @@
 const express = require('express');
-let app = express();
-const router = express.Router();
-const handler = require('./dbFunctions/handler')
+const router = express.router();
 const parser = require('body-parser');
-router.use(parser.json())
 
-// get all users + their activity
-router.get('/users', (req, res, next) => {
-	handler.getUsers(req, res)
-        .then((data) => {
-            res.header('Content-Type', 'application/json');
-            res.send({ users: data });
-        })
-        .catch((e) => {
-            res.status(401);
-        });
+router.use(parser.json());
+
+app.use('/', express.static('/public'));
+
+
+// GET ROUTES
+
+router.get('/posts', (request, response, next) => {
+
+
+    next();
 });
 
-// get a specified user via user.id + their activity
-router.get('/user/:user_id', (req, res, next) => {
-	const id = parseInt(req.params.user_id, 10);
-	console.log(id)
-	handler.getUser(id)
-	    .then((data) => {
-	        res.header('Content-Type', 'application/json');
-	        res.send({
-	            user: data
-		        });
-		    })
-	    .catch((e) => {
-	        console.log(e)
-	        res.status(401);
-    });
+router.get('/users', (request, response, next) => {
+
+    next();
+})
+
+router.get('/users/:id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+
+    next()
 });
 
-// get users that $user_id follows
-router.get('/:follower_id/followedusers', (req, res) => {
-	console.log("0")
-	const id = parseInt(req.params.follower_id, 10);
-	handler.getFollowed(id)
-    .then((data) => {
-        res.header('Content-Type', 'application/json');
-        res.send({
-            followed_users: data
-        });
-    })
-    .catch((e) => {
-        console.log(e)
-        res.status(401);
-    });
+router.get('/followers/:user_id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+})
+
+router.get('/followers/:follower_id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+})
+
+router.get('/activities', (request, response, next) => {
+
+    next();
+})
+
+router.get('/activities/:user_id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+})
+
+// POST ROUTES
+
+router.post('/posts', (request, response, next) => {
+
+
+    next();
 });
 
-module.exports = router;
+router.post('/activities', (request, response, next) => {
+
+
+    next();
+});
+
+router.post('/followers', (request, response, next) => {
+
+
+    next();
+});
+
+router.post('/users', (request, response, next) => {
+
+
+    next();
+});
+
+
+// PUT ROUTES
+
+
+
+router.put('/post/:id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+});
+
+router.put('/users/:id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+});
+
+
+// DELETE ROUTES
+
+
+
+router.delete('/post/:id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+});
+
+router.delete('/users/:id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+});
+
+router.delete('/followers/:followers_id', (request, response, next) => {
+    const id = parseInt(request.params.id, 10);
+
+    next();
+});
+
+
+
+
+// middle ware
+
+router.use((request, response) => {
+    response.header('Content-Type', 'application/json');
+    response.send(data)
+});
+
+
+module.exports = apiRouter
