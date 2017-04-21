@@ -16,7 +16,7 @@
           <div class="col s6 m6">
             <div class="card">
               <div class="card-image">
-                <img src="images/sample-1.jpg">
+                <img src=${user.ACTIVITY_PAYLOAD}>
                 </div>
                 <div class="card-content">
                 <span class="card-title">${user.EMAIL}</span>
