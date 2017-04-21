@@ -1,33 +1,41 @@
 (function() { // protect the lemmings
 // render the igPosts
 
-    function render(posts) {
-      const container = document.querySelector('.js-post');
+    function render(users) {
+      console.log("here");
+      const container = document.querySelector('.js-users');
       container.innerHTML = '';
-      console.log(posts)
-      for (const post of posts) {
-        console.log(post)
+      console.log(users)
+      for(const user of users.users){
+        console.log(user);
+
         const div = document.createElement('div');
         div.innerHTML =
         `
-          <div class="col s12 m7">
-            <div class="card hoverable center-align">
-              <div class="card-image z-depth-3">
+        <div class="row">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-image">
                 <img src="images/sample-1.jpg">
-                <span class="card-title">Card Title</span>
+                </div>
+                <div class="card-content">
+                <span class="card-title">${user.EMAIL}</span>
+                <a class="waves-effect waves-light btn right">Follow</a>
+              </div>
               </div>
             </div>
           </div>
         `
         div.classList.add('row')
         container.appendChild(div)
+      }
+    };
 
-        const posts = [{
-          title: "test first post",
-          img: "images/sample-1.jpg"
-        }];
-        render(posts)
 
+ajax.GET('/api/users')
+		.then((users) => {
+			render(users);
+    });
 
   // GET('/posts')
   //   .then((posts) => {
