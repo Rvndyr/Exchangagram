@@ -8,26 +8,21 @@ const app = express();
 const router = express.Router()
 
 router.use(parser.json());
+app.use('/', express.static('./public'));
 
 
-router.get('/login', (request, response, next) => {
-    console.log("here")
-    passport.authenticate('local', (err, user, info) => {
-        if (err) console.log(err);
-        if (!user) console.log(user);
+router.get('/api/posts', (request, response, next) => {
+    response.header('Content-Type', 'application/json');
+    response.send({
+        'success': true
+    })
+    response.send({
+        "success": false
+    })
+})
 
-        request.logIn(user, (err) => {
-            if (err) return next(err);
-            // if we are here, user has logged in!
-            response.header('Content-Type', 'application/json');
-            response.send({
-                success: true,
-            });
-        });
-    })(request, response, next);
-});
 
-// app.use('/', express.static('/public'));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,6 +63,23 @@ passport.use(new LocalStrategy({
     }
     return done(null, { success: true });
 }));
+
+router.post('/login', (request, response, next) => {
+    console.log("here")
+    passport.authenticate('local', (err, user, info) => {
+        if (err) console.log(err);
+        if (!user) console.log(user);
+
+        request.logIn(user, (err) => {
+            if (err) return next(err);
+            // if we are here, user has logged in!
+            response.header('Content-Type', 'application/json');
+            response.send({
+                success: true,
+            });
+        });
+    })(request, response, next);
+});
 
 
 module.exports = router;
