@@ -9,13 +9,40 @@ router.use(parser.json());
 
 // GET ROUTES
 
+<<<<<<< HEAD
 router.get('/posts', (request, response, next) => {
     next();
+=======
+router.get('/posts/:id', (request, response, next) => {
+
+
+    exchanger.getActivity(request.params.id).then((data) => {
+        response.header('Content-Type', 'application/json');
+        response.send({ activity: data });
+    }).catch((e) => {
+        response.status(401);
+    });
+
+
+>>>>>>> upstream/master
 });
 
 // added this example for you to work off of rich
 router.get('/users', (request, response, next) => {
+<<<<<<< HEAD
     next();
+=======
+    exchanger.getUsers(request, response).then((data) => {
+        response.header('Content-Type', 'application/json');
+        response.send({ users: data });
+    }).catch((e) => {
+        response.status(401);
+    });
+
+
+    // next(); had to comment out rich to get /users to work
+
+>>>>>>> upstream/master
 });
 
 router.get('/users/:id', (request, response, next) => {
@@ -113,11 +140,16 @@ router.delete('/followers/:followers_id', (request, response, next) => {
 // had to comment this out rich or public would not serve
 router.use((request, response) => {
     response.header('Content-Type', 'application/json');
+<<<<<<< HEAD
     exchanger.getUsers().then((data) => {
         console.log(data);
 
         response.send(data);
     });
 });
+=======
+    response.send(data)
+}); */
+>>>>>>> upstream/master
 
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
