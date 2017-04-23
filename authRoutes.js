@@ -7,7 +7,7 @@ const expressSession = require('express-session');
 // const FacebookStrategy = require('passport-facebook').Strategy;
 
 // const app = express();
-const router = express()
+const router = express();
 
 router.use(parser.json());
 // router.use('/', express.static('./public'));
@@ -55,7 +55,7 @@ router.use(passport.session());
 // })
 
 
-
+// LOG IN
 router.post('/auth/login', (request, response, next) => {
     console.log("here")
     passport.authenticate('local', (err, user, info) => {
@@ -68,10 +68,20 @@ router.post('/auth/login', (request, response, next) => {
             response.header('Content-Type', 'application/json');
             response.send({
                 success: true,
+                // userId: user.id
             });
         });
     })(request, response, next);
 });
+
+
+// SIGN UP
+router.post('/auth/signup', (request, response) => {
+    // Create user function will go here
+})
+
+
+
 
 router.use((request, response, next) => {
     console.log('in authRoutes')
