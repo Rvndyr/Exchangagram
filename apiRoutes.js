@@ -1,18 +1,24 @@
 const express = require('express');
-const router = express.Router();
+const router = express();
 const parser = require('body-parser');
 const exchanger = require('./exchanger');
 const db = require('sqlite');
 const DB_NAME = './database.sqlite';
 
-router.use(parser.json());
+// router.use(parser.json());
 
 // GET ROUTES
 
-<<<<<<< HEAD
 router.get('/posts', (request, response, next) => {
     next();
-=======
+
+router.use((request, response, next) => {
+    console.log('in apiRoutes');
+    console.log(request.session, request.user);
+
+    next();
+})
+
 router.get('/posts/:id', (request, response, next) => {
 
 
@@ -24,17 +30,26 @@ router.get('/posts/:id', (request, response, next) => {
     });
 
 
->>>>>>> upstream/master
+
 });
 
 // added this example for you to work off of rich
 router.get('/users', (request, response, next) => {
-<<<<<<< HEAD
+
     next();
-=======
+
+
+  //  uncomment to get users feed
+//     exchanger.getUsersActivity(request, response).then((data) => {
+//     response.header('Content-Type', 'application/json');
+//     response.send({ users: data });
+
+
+
     exchanger.getUsers(request, response).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ users: data });
+
     }).catch((e) => {
         response.status(401);
     });
@@ -42,7 +57,7 @@ router.get('/users', (request, response, next) => {
 
     // next(); had to comment out rich to get /users to work
 
->>>>>>> upstream/master
+
 });
 
 router.get('/users/:id', (request, response, next) => {
@@ -140,16 +155,19 @@ router.delete('/followers/:followers_id', (request, response, next) => {
 // had to comment this out rich or public would not serve
 router.use((request, response) => {
     response.header('Content-Type', 'application/json');
-<<<<<<< HEAD
+
     exchanger.getUsers().then((data) => {
         console.log(data);
 
         response.send(data);
     });
 });
-=======
+
     response.send(data)
 }); */
->>>>>>> upstream/master
+
+
+
 
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
+
