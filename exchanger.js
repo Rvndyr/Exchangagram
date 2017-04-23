@@ -4,10 +4,11 @@ const DB_NAME = './database.sqlite';
 const exchanger = {};
 
 const filterOutKey = (data, keyToFilter) => {
-    return data.map((user) => Object.assign(
-        {},
+    return data.map((user) => Object.assign({},
         ...Object.keys(user).filter(userKey => userKey !== keyToFilter)
-                            .map(key => ({[key]: user[key]}))
+        .map(key => ({
+            [key]: user[key]
+        }))
     ));
 }
 
@@ -16,10 +17,12 @@ exchanger.getUsers = () => {
     return db.all(`SELECT * FROM users`).then((data) => filterOutKey(data, 'PASSWORD'));
 };
 
+// Get all 
+
 // Get all users + their activity
-exchanger.getUsersActivity = () => {
-    return db.all(`SELECT * FROM users 
-                    INNER JOIN activities ON activities.user_id = users.id`)
+exchanger.getActivity = (user_id) => {
+    return db.all(`SELECT activity_payload FROM activities 
+                    WHERE activities.user_id =${user_id}`);
 };
 
 // Get a specified user via user.id + their activity
