@@ -9,23 +9,38 @@ router.use(parser.json());
 
 // GET ROUTES
 
-router.get('/posts', (request, response, next) => {
+router.get('/posts/:id', (request, response, next) => {
 
 
-    next();
-});
-
-// added this example for you to work off of rich
-router.get('/users', (request, response, next) => {
-    exchanger.getUsersActivity(request, response).then((data) => {
-    response.header('Content-Type', 'application/json');
-    response.send({ users: data });
+    exchanger.getActivity(request.params.id).then((data) => {
+        response.header('Content-Type', 'application/json');
+        response.send({ activity: data });
     }).catch((e) => {
         response.status(401);
     });
 
 
-   // next(); had to comment out rich to get /users to work
+});
+
+// added this example for you to work off of rich
+router.get('/users', (request, response, next) => {
+
+  //  uncomment to get users feed
+//     exchanger.getUsersActivity(request, response).then((data) => {
+//     response.header('Content-Type', 'application/json');
+//     response.send({ users: data });
+
+
+    exchanger.getUsers(request, response).then((data) => {
+        response.header('Content-Type', 'application/json');
+        response.send({ users: data });
+
+    }).catch((e) => {
+        response.status(401);
+    });
+
+
+    // next(); had to comment out rich to get /users to work
 
 });
 
@@ -127,4 +142,7 @@ router.delete('/followers/:followers_id', (request, response, next) => {
     response.send(data)
 }); */
 
+
+
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
+
