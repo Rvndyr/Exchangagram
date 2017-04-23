@@ -1,13 +1,20 @@
 const express = require('express');
-const router = express.Router();
+const router = express();
 const parser = require('body-parser');
 const exchanger = require('./exchanger');
 const db = require('sqlite');
 const DB_NAME = './database.sqlite';
 
-router.use(parser.json());
+// router.use(parser.json());
 
 // GET ROUTES
+
+router.use((request, response, next) => {
+    console.log('in apiRoutes');
+    console.log(request.session, request.user);
+
+    next();
+})
 
 router.get('/posts/:id', (request, response, next) => {
 

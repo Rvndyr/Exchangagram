@@ -12,19 +12,16 @@ const port = 9999;
 const exchangagramApi = require('./apiRoutes');
 const authApp = require('./authRoutes');
 
-
 const DB_NAME = './database.sqlite';
-
 
 app.use('/', express.static('./public', {
     'index': ['index.html'],
+    'login': ['login.html'],
+    'signup': ['signup.html']
 }));
 
-
-//prepend api routes url
-app.use('/api', exchangagramApi);
-
-app.use('/auth', authApp);
+app.use(authApp);
+app.use(exchangagramApi);
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
