@@ -1,6 +1,6 @@
 (function() { // protect the lemmings
-// render the igPosts
 
+////render all users in the app; following and non following////
     function render(users) {
       console.log("here");
       const container = document.querySelector('.js-users');
@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-content">
                 <span class="card-title">${user.EMAIL}</span>
-                <a class="waves-effect waves-light btn right">Follow</a>
+                <a class="waves-effect waves-light btn right js-follow">Follow</a>
               </div>
               </div>
             </div>
@@ -32,33 +32,15 @@
     };
 
 
+
 ajax.GET('/api/users')
 		.then((users) => {
 			render(users);
     });
-
-  // GET('/posts')
-  //   .then((posts) => {
-  //     render(posts);
-  //   });
-  //
-  //   const post = document.querySelector('.js-add-post');
-  //
-  //   if (post !== null) {
-  //     post.addEventListener('click', (e) => {
-  //       const input = document.querySelector('.js-todo-body');
-  //       const inputTitle = document.querySelector('.js-todo-title');
-  //       input.setAttribute('disabled', 'disabled');
-  //
-  //       POST('/posts', {
-  //       }).then((posts) => {
-  //         input.removeAttribute('disabled');
-  //         input.value = '';
-  //         inputTitle.removeAttribute('disabled');
-  //         inputTitle.value = '';
-  //         render(posts);
-  //       });
-  //     })
-  //     }
+/////////////////////////////////////////////////
+const followBtn = document.querySelector('.js-follow');
+followBtn.addEventListener('click', (e) => {
+  console.log("LOL Im wokring")
+})
 
 })();

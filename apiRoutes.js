@@ -9,12 +9,12 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
-router.use((request, response, next) => {
-    console.log('in apiRoutes');
-    console.log(request.session, request.user);
-
-    next();
-})
+// router.use((request, response, next) => {
+//     console.log('in apiRoutes');
+//     console.log(request.session, request.user);
+//
+//     next();
+// })
 
 router.get('/posts/:id', (request, response, next) => {
 
@@ -33,14 +33,14 @@ router.get('/posts/:id', (request, response, next) => {
 router.get('/users', (request, response, next) => {
 
   //  uncomment to get users feed
-//     exchanger.getUsersActivity(request, response).then((data) => {
-//     response.header('Content-Type', 'application/json');
-//     response.send({ users: data });
+    exchanger.getUsersActivity(request, response).then((data) => {
+      response.header('Content-Type', 'application/json');
+      response.send({ users: data });
 
 
-    exchanger.getUsers(request, response).then((data) => {
-        response.header('Content-Type', 'application/json');
-        response.send({ users: data });
+    // exchanger.getUsers(request, response).then((data) => {
+    //   response.header('Content-Type', 'application/json');
+    //   response.send({ users: data });
 
     }).catch((e) => {
         response.status(401);
@@ -152,4 +152,3 @@ router.delete('/followers/:followers_id', (request, response, next) => {
 
 
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
-
