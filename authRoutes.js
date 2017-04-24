@@ -2,7 +2,7 @@ const express = require('express');
 const parser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const exchanger = require('./exchanger');
 const expressSession = require('express-session');
 // const FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -54,6 +54,20 @@ router.use(passport.session());
 //     })
 // })
 
+// SIGN UP
+router.post('/auth/signup', (request, response) => {
+ const isCreated = exchanger.createUser(request.body)
+        .then((data) => {
+            response.header('Content-Type', 'application/json');
+            response.send({
+                success: true
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+            response.status(401);
+        });});
+
 
 // LOG IN
 router.post('/auth/login', (request, response, next) => {
@@ -73,15 +87,6 @@ router.post('/auth/login', (request, response, next) => {
         });
     })(request, response, next);
 });
-
-
-// SIGN UP
-router.post('/auth/signup', (request, response) => {
-    // Create user function will go here
-})
-
-
-
 
 router.use((request, response, next) => {
     console.log('in authRoutes')

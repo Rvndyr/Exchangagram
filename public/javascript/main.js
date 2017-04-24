@@ -42,8 +42,52 @@
             });
     } else if (pageType === 'login') {
         // do some other stuff etc
+        loginPage();
+    }
+    else if (pageType === 'signup') {
+        signupPage(); 
     }
 
+    function signupPage() {
+        const btn = document.querySelector('.js-login');
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = document.querySelector('.js-name').value;
+            const email = document.querySelector('.js-email').value;
+            const pw = document.querySelector('.js-password').value;
+
+            ajax.POST('/auth/signup', {
+                name: name,
+                email: email,
+                password: pw
+            }).then((data) => {
+                console.log(data)
+                if (data.success) {
+                    window.location.href = '/login.html'
+                }
+            });
+        });
+    }; 
+
+    function loginPage() {
+        const email = document.querySelector('.js-email');
+        const pw = document.querySelector('.js-password');
+        const btn = document.querySelector('.js-login')
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            ajax.POST('/auth/login', {
+                email: email.value,
+                password: pw.value,
+            })
+            .then((data) => {
+                console.log('POST auth/login data', data);
+                if (data.success) {
+                    window.location.href = '/index.html'
+                }
+            });
+        }); 
+    };
 
 
     // GET('/posts')
