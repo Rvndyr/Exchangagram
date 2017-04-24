@@ -45,8 +45,9 @@ exchanger.getFollowed = (user_id) => {
             WHERE followers.user_id = ${user_id}`)
 };
 
-exchanger.createUser = (user_id, request) => {
-    return exchanger.db.run(`INSERT INTO users (name,  email, password) values ($_name, $email, $password)`, request)
+//Create User
+exchanger.createUser = (req) => {
+    return exchanger.db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, req.name, req.email, req.password)
 };
 
 // Create a post
