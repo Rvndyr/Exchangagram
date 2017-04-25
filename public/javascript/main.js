@@ -2,16 +2,16 @@
 
 ////render all users in the app; following and non following////
     function render(users) {
-      console.log("here");
-      const container = document.querySelector('.js-users');
-      container.innerHTML = '';
-      console.log(users)
-      for(const user of users.users){
-        console.log(user);
+        console.log("here");
+        const container = document.querySelector('.js-users');
+        container.innerHTML = '';
+        console.log(users)
+        for (const user of users.users) {
+            console.log(user);
 
-        const div = document.createElement('div');
-        div.innerHTML =
-        `
+            const div = document.createElement('div');
+            div.innerHTML =
+                `
         <div class="row">
           <div class="col s6 m6">
             <div class="card">
@@ -26,10 +26,11 @@
             </div>
           </div>
         `
-        div.classList.add('row')
-        container.appendChild(div)
-      }
+            div.classList.add('row')
+            container.appendChild(div)
+        }
     };
+
 
 
 
@@ -42,5 +43,62 @@ const followBtn = document.querySelector('.js-follow');
 followBtn.addEventListener('click', (e) => {
   console.log("LOL Im wokring")
 })
+
+    const pageType = document.querySelector('body').getAttribute('data-template-name');
+
+    if (pageType === 'feed') {
+        // do some shit
+        ajax.GET('/api/feed/:id')
+            .then((users) => {
+                // render(users);
+            });
+    } else if (pageType === 'login') {
+        // do some other stuff etc
+        loginPage();
+    }
+    else if (pageType === 'signup') {
+        signupPage(); 
+    }
+
+    function signupPage() {
+        const btn = document.querySelector('.js-login');
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = document.querySelector('.js-name').value;
+            const email = document.querySelector('.js-email').value;
+            const pw = document.querySelector('.js-password').value;
+
+            ajax.POST('/auth/signup', {
+                name: name,
+                email: email,
+                password: pw
+            }).then((data) => {
+                console.log(data)
+                if (data.success) {
+                    window.location.href = '/login.html'
+                }
+            });
+        });
+    }; 
+
+    function loginPage() {
+        const email = document.querySelector('.js-email');
+        const pw = document.querySelector('.js-password');
+        const btn = document.querySelector('.js-login')
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            ajax.POST('/auth/login', {
+                email: email.value,
+                password: pw.value,
+            })
+            .then((data) => {
+                console.log('POST auth/login data', data);
+                if (data.success) {
+                    window.location.href = '/index.html'
+                }
+            });
+        }); 
+    };
 
 })();

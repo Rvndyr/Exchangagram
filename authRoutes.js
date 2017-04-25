@@ -2,12 +2,12 @@ const express = require('express');
 const parser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const exchanger = require('./exchanger');
 const expressSession = require('express-session');
 // const FacebookStrategy = require('passport-facebook').Strategy;
 
 // const app = express();
-const router = express()
+const router = express();
 
 router.use(parser.json());
 // router.use('/', express.static('./public'));
@@ -54,8 +54,22 @@ router.get('/api/posts/:id', (request, response, next) => {
     })
 })
 
+// SIGN UP
+router.post('/auth/signup', (request, response) => {
+ const isCreated = exchanger.createUser(request.body)
+        .then((data) => {
+            response.header('Content-Type', 'application/json');
+            response.send({
+                success: true
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+            response.status(401);
+        });});
 
 
+// LOG IN
 router.post('/auth/login', (request, response, next) => {
     console.log("here")
     passport.authenticate('local', (err, user, info) => {
@@ -68,6 +82,7 @@ router.post('/auth/login', (request, response, next) => {
             response.header('Content-Type', 'application/json');
             response.send({
                 success: true,
+                // userId: user.id
             });
         });
     })(request, response, next);
