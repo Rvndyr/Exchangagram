@@ -1,10 +1,6 @@
 (function() { // protect the lemmings
-<<<<<<< HEAD
-=======
     // render the igPosts
->>>>>>> upstream/master
 
-////render all users in the app; following and non following////
     function render(users) {
         console.log("here");
         const container = document.querySelector('.js-users');
@@ -24,7 +20,7 @@
                 </div>
                 <div class="card-content">
                 <span class="card-title">${user.EMAIL}</span>
-                <a class="waves-effect waves-light btn right js-follow">Follow</a>
+                <a class="waves-effect waves-light btn right">Follow</a>
               </div>
               </div>
             </div>
@@ -36,18 +32,6 @@
     };
 
 
-<<<<<<< HEAD
-
-ajax.GET('/api/users')
-		.then((users) => {
-			render(users);
-    });
-/////////////////////////////////////////////////
-const followBtn = document.querySelector('.js-follow');
-followBtn.addEventListener('click', (e) => {
-  console.log("LOL Im wokring")
-})
-=======
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
     if (pageType === 'feed') {
@@ -61,7 +45,7 @@ followBtn.addEventListener('click', (e) => {
         loginPage();
     }
     else if (pageType === 'signup') {
-        signupPage(); 
+        signupPage();
     }
 
     function signupPage() {
@@ -84,7 +68,7 @@ followBtn.addEventListener('click', (e) => {
                 }
             });
         });
-    }; 
+    };
 
     function loginPage() {
         const email = document.querySelector('.js-email');
@@ -102,33 +86,11 @@ followBtn.addEventListener('click', (e) => {
                     window.location.href = '/index.html'
                 }
             });
-        }); 
+        });
     };
-
-
-    // GET('/posts')
-    //   .then((posts) => {
-    //     render(posts);
-    //   });
-    //
-    //   const post = document.querySelector('.js-add-post');
-    //
-    //   if (post !== null) {
-    //     post.addEventListener('click', (e) => {
-    //       const input = document.querySelector('.js-todo-body');
-    //       const inputTitle = document.querySelector('.js-todo-title');
-    //       input.setAttribute('disabled', 'disabled');
-    //
-    //       POST('/posts', {
-    //       }).then((posts) => {
-    //         input.removeAttribute('disabled');
-    //         input.value = '';
-    //         inputTitle.removeAttribute('disabled');
-    //         inputTitle.value = '';
-    //         render(posts);
-    //       });
-    //     })
-    //     }
->>>>>>> upstream/master
-
+    /////////////////////////////////////////////////
+    // const followBtn = document.querySelector('.js-follow');
+    // followBtn.addEventListener('click', (e) => {
+    //   console.log("LOL Im wokring")
+    // })
 })();
