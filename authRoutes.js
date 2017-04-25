@@ -44,15 +44,15 @@ router.use(passport.session());
 
 
 
-router.get('/api/posts/:id', (request, response, next) => {
-    response.header('Content-Type', 'application/json');
-    response.send({
-        'success': true
-    })
-    response.send({
-        "success": false
-    })
-})
+// router.get('/api/posts/:id', (request, response, next) => {
+//     response.header('Content-Type', 'application/json');
+//     response.send({
+//         'success': true
+//     })
+//     response.send({
+//         "success": false
+//     })
+// })
 
 // SIGN UP
 router.post('/auth/signup', (request, response) => {
