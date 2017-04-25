@@ -11,6 +11,7 @@ const port = 9999;
 // api routes
 const exchangagramApi = require('./apiRoutes');
 const authApp = require('./authRoutes');
+const register = require('./signup');
 
 const DB_NAME = './database.sqlite';
 
@@ -19,13 +20,14 @@ app.use('/', express.static('./public', {
     'login': ['login.html'],
     'signup': ['signup.html']
 }));
-
+app.use(register);
 app.use(authApp);
 app.use('/api', exchangagramApi);
 
+
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
-     .then(() => db.migrate({ force: 'last' }))
+    .then(() => db.migrate({ force: 'last' }))
     .then(() => app.listen(port))
     .then(() => { console.log(`Exchangagram live at http://localhost:${port}`) })
     .catch(err => console.error(err.stack))

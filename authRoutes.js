@@ -12,9 +12,19 @@ const router = express();
 router.use(parser.json());
 // router.use('/', express.static('./public'));
 
-router.use(expressSession({
-    secret: 'HUSH'
-}));
+
+// router.use(expressSession({
+//     secret: 'HUSH'
+// }));
+
+// router.use(expressSession({
+//     secret: 'FOBAR'
+// }));
+
+
+
+
+
 
 passport.serializeUser((user, done) => {
 
@@ -60,6 +70,7 @@ router.post('/auth/login', (request, response, next) => {
         });
     })(request, response, next);
 });
+
 
 router.use((request, response, next) => {
     console.log('in authRoutes')
