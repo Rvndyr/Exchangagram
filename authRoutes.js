@@ -41,34 +41,6 @@ passport.use(new LocalStrategy({
 router.use(passport.initialize());
 router.use(passport.session());
 
-
-
-
-// router.get('/api/posts/:id', (request, response, next) => {
-//     response.header('Content-Type', 'application/json');
-//     response.send({
-//         'success': true
-//     })
-//     response.send({
-//         "success": false
-//     })
-// })
-
-// SIGN UP
-router.post('/auth/signup', (request, response) => {
- const isCreated = exchanger.createUser(request.body)
-        .then((data) => {
-            response.header('Content-Type', 'application/json');
-            response.send({
-                success: true
-            })
-        })
-        .catch((e) => {
-            console.log(e)
-            response.status(401);
-        });});
-
-
 // LOG IN
 router.post('/auth/login', (request, response, next) => {
     console.log("here")

@@ -9,14 +9,18 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
+//  uncomment to get users feed
+ //   exchanger.getActivity(request, response).then((data) => {
+   //   response.header('Content-Type', 'application/json');
+     // response.send({ users: data });
+
 router.get('/feed/:id', (request, response) => {
-    exchanger.getActivity(request.params.id).then((data) => {
+    exchanger.getUsersActivity(request.params.id).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ activity: data });
     }).catch((e) => {
         response.status(401);
     });
-
 
 
 });

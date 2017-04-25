@@ -46,7 +46,7 @@ exchanger.getFollowed = (user_id) => {
 };
 
 //Create User
-// exchanger.createUser = (req) => {
+exchanger.createUser = (req) => {
     return exchanger.db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, req.name, req.email, req.password)
 };
 
