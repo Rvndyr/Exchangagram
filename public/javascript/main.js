@@ -45,7 +45,7 @@
         loginPage();
     }
     else if (pageType === 'signup') {
-        signupPage();
+        signupPage(); 
     }
 
     function signupPage() {
@@ -68,7 +68,7 @@
                 }
             });
         });
-    };
+    }; 
 
     function loginPage() {
         const email = document.querySelector('.js-email');
@@ -86,11 +86,32 @@
                     window.location.href = '/index.html'
                 }
             });
-        });
+        }); 
     };
-    /////////////////////////////////////////////////
-    // const followBtn = document.querySelector('.js-follow');
-    // followBtn.addEventListener('click', (e) => {
-    //   console.log("LOL Im wokring")
-    // })
+
+
+    // GET('/posts')
+    //   .then((posts) => {
+    //     render(posts);
+    //   });
+    //
+    //   const post = document.querySelector('.js-add-post');
+    //
+    //   if (post !== null) {
+    //     post.addEventListener('click', (e) => {
+    //       const input = document.querySelector('.js-todo-body');
+    //       const inputTitle = document.querySelector('.js-todo-title');
+    //       input.setAttribute('disabled', 'disabled');
+    //
+    //       POST('/posts', {
+    //       }).then((posts) => {
+    //         input.removeAttribute('disabled');
+    //         input.value = '';
+    //         inputTitle.removeAttribute('disabled');
+    //         inputTitle.value = '';
+    //         render(posts);
+    //       });
+    //     })
+    //     }
+
 })();

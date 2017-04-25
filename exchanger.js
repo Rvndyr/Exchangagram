@@ -21,26 +21,26 @@ exchanger.getUsers = () => {
 
 // Get all users + their activity
 exchanger.getActivity = (user_id) => {
-    return exchanger.db.all(`SELECT activity_payload FROM activities
+    return exchanger.db.all(`SELECT activity_payload FROM activities 
                     WHERE activities.user_id =${user_id}`);
 };
 
 // Get a specified user via user.id + their activity
 exchanger.getUser = (user_id) => {
-    return exchanger.db.all(`SELECT * FROM users
+    return exchanger.db.all(`SELECT * FROM users 
             INNER JOIN activities ON activities.user_id = users.id
             WHERE users.id = ${user_id}`)
 };
 
 // Get users that $user_id follows
 exchanger.getFollowed = (user_id) => {
-    return exchanger.db.all(`SELECT
+    return exchanger.db.all(`SELECT 
                 users.name AS name,
                 users.email AS email,
                 activities.activity_type_id AS activity_type_id,
                 activities.activity_payload AS payload
             FROM users
-                INNER JOIN followers ON followers.follower_id = users.id
+                INNER JOIN followers ON followers.follower_id = users.id 
                 INNER JOIN activities ON activities.user_id = users.id
             WHERE followers.user_id = ${user_id}`)
 };

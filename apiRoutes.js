@@ -9,151 +9,138 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
-router.use((request, response, next) => {
-    console.log('in apiRoutes');
-    console.log(request.session, request.user);
+//  uncomment to get users feed
+ //   exchanger.getActivity(request, response).then((data) => {
+   //   response.header('Content-Type', 'application/json');
+     // response.send({ users: data });
 
-    next();
-})
-
-router.get('/posts/:id', (request, response, next) => {
-
-
-<<<<<<< HEAD
-
- router.get('/feed/:id', (request, response) => {
-
-=======
->>>>>>> b8264f07b068e5a9bd4c3444fba4dc6e115ae90e
-    exchanger.getActivity(request.params.id).then((data) => {
+router.get('/feed/:id', (request, response) => {
+    exchanger.getUsersActivity(request.params.id).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ activity: data });
     }).catch((e) => {
         response.status(401);
     });
- })
+
 
 });
 
+
 // added this example for you to work off of rich
-router.get('/users', (request, response, next) => {
-
-  //  uncomment to get users feed
-    exchanger.getActivity(request, response).then((data) => {
-      response.header('Content-Type', 'application/json');
-      response.send({ users: data });
-
-
-    // exchanger.getUsers(request, response).then((data) => {
-    //   response.header('Content-Type', 'application/json');
-    //   response.send({ users: data });
-
+router.get('/users', (request, response) => {
+    exchanger.getUsers(request, response).then((data) => {
+        response.header('Content-Type', 'application/json');
+        response.send({ users: data });
     }).catch((e) => {
         response.status(401);
     });
-
-
-    // next(); had to comment out rich to get /users to work
-
 });
 
-router.get('/users/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
 
 
-    next()
+
+
+
+
+
+// next(); had to comment out rich to get /users to work
+
+
+// router.get('/users/:id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+
+//     next()
+// });
+
+// router.get('/followers/:user_id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// })
+
+// router.get('/followers/:follower_id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// })
+
+// router.get('/activities', (request, response, next) => {
+
+//     next();
+// })
+
+// router.get('/activities/:user_id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// })
+
+// // POST ROUTES
+
+// router.post('/posts', (request, response, next) => {
+
+
+//     next();
+// });
+
+// router.post('/activities', (request, response, next) => {
+
+
+//     next();
+// });
+
+// router.post('/followers', (request, response, next) => {
+
+
+//     next();
+// });
+
+// router.post('/users', (request, response, next) => {
+
+
+//     next();
+// });
+
+// // PUT ROUTES
+
+// router.put('/post/:id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// });
+
+// router.put('/users/:id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// });
+
+// // DELETE ROUTES
+
+// had to comment this out rich or public would not serv
+//     next();
+// });
+
+// router.delete('/users/:id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// });
+
+// router.delete('/followers/:followers_id', (request, response, next) => {
+//     const id = parseInt(request.params.id, 10);
+
+//     next();
+// });
+
+// // middle ware
+
+// // had to comment this out rich or public would not serve
+router.use((request, response) => {
+    response.header('Content-Type', 'application/json')
+    response.send(data);
 });
-
-router.get('/followers/:user_id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-})
-
-router.get('/followers/:follower_id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-})
-
-router.get('/activities', (request, response, next) => {
-
-    next();
-})
-
-router.get('/activities/:user_id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-})
-
-// POST ROUTES
-
-router.post('/posts', (request, response, next) => {
-
-
-    next();
-});
-
-router.post('/activities', (request, response, next) => {
-
-
-    next();
-});
-
-router.post('/followers', (request, response, next) => {
-
-
-    next();
-});
-
-router.post('/users', (request, response, next) => {
-
-
-    next();
-});
-
-// PUT ROUTES
-
-router.put('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
-
-router.put('/users/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
-
-// DELETE ROUTES
-
-router.delete('/post/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
-
-router.delete('/users/:id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
-
-router.delete('/followers/:followers_id', (request, response, next) => {
-    const id = parseInt(request.params.id, 10);
-
-    next();
-});
-
-// middle ware
-
-// had to comment this out rich or public would not serve
-/* router.use((request, response) => {
-    response.header('Content-Type', 'application/json');
-    response.send(data)
-}); */
 
 
 
