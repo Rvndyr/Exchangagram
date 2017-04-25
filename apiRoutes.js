@@ -9,20 +9,16 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
-router.get('/feed/:id', (request, response) => {
-    exchanger.getActivity(request.params.id).then((data) => {
+router.get('/feed/:user_id', (request, response) => {
+    exchanger.getActivity(request.params.user_id).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ activity: data });
     }).catch((e) => {
         response.status(401);
     });
-
-
-
 });
 
-
-// added this example for you to work off of rich
+// get all users
 router.get('/users', (request, response) => {
     exchanger.getUsers(request, response).then((data) => {
         response.header('Content-Type', 'application/json');
@@ -33,21 +29,109 @@ router.get('/users', (request, response) => {
 });
 
 
+// Get a specified user and activties of user_id
+router.get('/user/:user_id', (req, res, next) => {
+    const id = parseInt(req.params.user_id, 10);
+    exchanger.getUser(id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                user: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// get users that $user_id follows
+router.get('/:user_id/followedusers', (req, res) => {
+    const id = parseInt(req.params.user_id, 10);
+    exchanger.getFollowed(id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// Follow a user ##url feeds the user_id + followed_id.
+router.post('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.followed_id, 10);
+    exchanger.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// Unfollow a user ## feeds the user_id + followed_id.
+router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.followed_id, 10);
+    exchanger.unfollow(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
 
 
+// create a post. ##url feeds the user_id + followed_id. req targets activity table columns
+router.post('/:user_id/post', (req, res, next) => {
+    let args = {};
+    for (const prop in req.body) {
+        args['$' + prop] = req.body[prop];
+    }
+    req.body = args;
+    const user_id = parseInt(req.params.user_id, 10);
+    exchanger.createActivity(user_id, req.body)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                post: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
 
-
-
-
-// next(); had to comment out rich to get /users to work
-
-
-// router.get('/users/:id', (request, response, next) => {
-//     const id = parseInt(request.params.id, 10);
-
-
-//     next()
-// });
+// Get a specified post ## url feeds post_id
+router.get('/post/:post_id', (req, res, next) => {
+    const id = parseInt(req.params.post_id, 10);
+    exchanger.getPost(id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                user: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
 
 // router.get('/followers/:user_id', (request, response, next) => {
 //     const id = parseInt(request.params.id, 10);
