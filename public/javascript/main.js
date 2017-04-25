@@ -43,9 +43,8 @@
     } else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    }
-    else if (pageType === 'signup') {
-        signupPage(); 
+    } else if (pageType === 'signup') {
+        signupPage();
     }
 
     function signupPage() {
@@ -56,8 +55,8 @@
             const name = document.querySelector('.js-name').value;
             const email = document.querySelector('.js-email').value;
             const pw = document.querySelector('.js-password').value;
-
-            ajax.POST('/auth/signup', {
+            console.log("button clicked")
+            ajax.POST('/signup', {
                 name: name,
                 email: email,
                 password: pw
@@ -68,7 +67,7 @@
                 }
             });
         });
-    }; 
+    };
 
     function loginPage() {
         const email = document.querySelector('.js-email');
@@ -77,16 +76,16 @@
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             ajax.POST('/auth/login', {
-                email: email.value,
-                password: pw.value,
-            })
-            .then((data) => {
-                console.log('POST auth/login data', data);
-                if (data.success) {
-                    window.location.href = '/index.html'
-                }
-            });
-        }); 
+                    email: email.value,
+                    password: pw.value,
+                })
+                .then((data) => {
+                    console.log('POST auth/login data', data);
+                    if (data.success) {
+                        window.location.href = '/index.html'
+                    }
+                });
+        });
     };
 
 

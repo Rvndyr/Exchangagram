@@ -7,6 +7,11 @@ const DB_NAME = './database.sqlite';
 
 // router.use(parser.json());
 
+
+
+
+// SIGN UP
+
 // GET ROUTES
 
 router.get('/feed/:user_id', (request, response) => {
