@@ -18,8 +18,7 @@ router.get('/feed/:user_id', (request, response) => {
     });
 });
 
-
-// added this example for you to work off of rich
+// get all users
 router.get('/users', (request, response) => {
     exchanger.getUsers(request, response).then((data) => {
         response.header('Content-Type', 'application/json');
@@ -37,8 +36,7 @@ router.get('/user/:user_id', (req, res, next) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                user: data,
-                numResults: data.length
+                user: data
             });
         })
         .catch((e) => {
@@ -54,8 +52,7 @@ router.get('/:user_id/followedusers', (req, res) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                followed_users: data,
-                numResults: data.length
+                followed_users: data
             });
         })
         .catch((e) => {
@@ -72,8 +69,7 @@ router.post('/:user_id/follow/:followed_id', (req, res, next) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                followed_users: data,
-                numResults: data.length
+                followed_users: data
             });
         })
         .catch((e) => {
@@ -90,8 +86,7 @@ router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                followed_users: data,
-                numResults: data.length
+                followed_users: data
             });
         })
         .catch((e) => {
@@ -109,7 +104,7 @@ router.post('/:user_id/post', (req, res, next) => {
     }
     req.body = args;
     const user_id = parseInt(req.params.user_id, 10);
-    exchanger.createPost(user_id, req.body)
+    exchanger.createActivity(user_id, req.body)
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
@@ -121,6 +116,23 @@ router.post('/:user_id/post', (req, res, next) => {
             res.status(401);
         });
 });
+
+// Get a specified post ## url feeds post_id
+router.get('/post/:post_id', (req, res, next) => {
+    const id = parseInt(req.params.post_id, 10);
+    exchanger.getPost(id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                user: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
 // router.get('/followers/:user_id', (request, response, next) => {
 //     const id = parseInt(request.params.id, 10);
 

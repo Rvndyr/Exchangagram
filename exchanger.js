@@ -29,7 +29,7 @@ exchanger.getActivity = (user_id) => {
 exchanger.getUser = (user_id) => {
     return db.all(`SELECT * FROM users 
             INNER JOIN activities ON activities.user_id = users.id
-            WHERE users.id = ${user_id}`)
+            WHERE users.id = ${user_id}`).then((data) => filterOutKey(data, 'PASSWORD'));
 };
 
 // Get users that $user_id follows
@@ -40,39 +40,50 @@ exchanger.getFollowed = (user_id) => {
                 activities.activity_type_id AS activity_type_id,
                 activities.activity_payload AS payload
             FROM users
-                INNER JOIN followers ON followers.follower_id = users.id 
+                INNER JOIN followers ON followers.followed_id = users.id 
                 INNER JOIN activities ON activities.user_id = users.id
             WHERE followers.user_id = ${user_id}`)
 };
 
-//create User
+// Get a specified payload via activities.activity_type_id
+exchanger.getPost = (activity_type_id) => {
+    return db.all(`SELECT
+                    users.name AS name,
+                    activities.activity_payload AS payload
+                FROM activities
+                    INNER JOIN users ON activities.user_id = users.id
+                WHERE activities.activity_type_id = ${activity_type_id}`)
+};
+
+
+// create User
 exchanger.createUser = (name, email, password) => {
     return db.run(`INSERT INTO user (name, email, password) VALUES (${name}, ${email}, ${password})`)
 };
 
-// Create a post
-exchanger.createPost = (user_id, request) => {
-    return db.run(`INSERT INTO activities (user_id, activity_type_id, activity_payload) values (${user_id}, $activity_type_id, $activity_payload)`, request)
+// Create a activity
+exchanger.createActivity = (user_id, request) => {
+    return db.run(`INSERT INTO activities (user_id, activity_payload) values (${user_id}, $activity_payload)`, request)
 };
 
 // Follow a user
 exchanger.followUser = (user_id, followed_id) => {
-    return db.run(`INSERT INTO followers (user_id, follower_id) VALUES (${user_id}, ${follower_id})`)
+    return db.run(`INSERT INTO followers (user_id, follower_id) VALUES (${user_id}, ${followed_id})`)
 };
 
-// Edit a post
-exchanger.updatePost = (post_id, updatedPost) => {
-    return db.run(`UPDATE activities SET activity_payload = ${updatedPost} WHERE ID = ${post_id}`)
+// Edit a activity payload
+exchanger.updatePost = (user_id, activity_type_id, updatedText) => {
+    return db.run(`UPDATE activities SET activity_payload = "${updatedText}" WHERE activity_type_id = ${activity_type_id} and user_id = ${user_id}`)
 };
 
-// Delete a post
-exchanger.deletePost = (post_id) => {
-    return db.run(`DELETE FROM activities WHERE ID = ${post_id}`)
+// Delete a acitivity paylaod
+exchanger.deletePost = (user_id, activity_type_id) => {
+    return db.run(`DELETE FROM activities WHERE activity_type_id = ${activity_typ_id} and user_id = ${user_id}`)
 };
 
 // Unfollow a user
 exchanger.unfollow = (user_id, followed_id) => {
-    return db.run(`DELETE FROM followers WHERE user_id = ${user_id} AND followed_id = ${follower_id}`)
+    return db.run(`DELETE FROM followers WHERE user_id = ${user_id} AND followed_id = ${followed_id}`)
 };
 
 module.exports = exchanger;
