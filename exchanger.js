@@ -57,8 +57,8 @@ exchanger.getPost = (activity_type_id) => {
 
 
 // create User
-exchanger.createUser = (name, email, password) => {
-    return db.run(`INSERT INTO user (name, email, password) VALUES (${name}, ${email}, ${password})`)
+exchanger.createUser = (req) => {
+    return db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, req.name, req.email, req.password)
 };
 
 // Create a activity
