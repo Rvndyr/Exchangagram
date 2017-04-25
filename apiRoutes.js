@@ -9,7 +9,20 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
-router.get('/feed/:id', (request, response) => {
+
+// router.use((request, response, next) => {
+//     console.log('in apiRoutes');
+//     console.log(request.session, request.user);
+//
+//     next();
+// })
+
+// router.get('/posts/:id', (request, response, next) => {
+
+
+
+// router.get('/feed/:id', (request, response) => {
+
     exchanger.getActivity(request.params.id).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ activity: data });
@@ -19,7 +32,19 @@ router.get('/feed/:id', (request, response) => {
 
 
 
-});
+
+  //  uncomment to get users feed
+//     exchanger.getUsersActivity(request, response).then((data) => {
+//       response.header('Content-Type', 'application/json');
+//       response.send({ users: data });
+
+
+    // exchanger.getUsers(request, response).then((data) => {
+    //   response.header('Content-Type', 'application/json');
+    //   response.send({ users: data });
+
+
+// });
 
 
 // added this example for you to work off of rich
@@ -27,6 +52,7 @@ router.get('/users', (request, response) => {
     exchanger.getUsers(request, response).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ users: data });
+
     }).catch((e) => {
         response.status(401);
     });
@@ -137,7 +163,6 @@ router.use((request, response) => {
     response.header('Content-Type', 'application/json')
     response.send(data);
 });
-
 
 
 module.exports = router; // had to change this from apiRouter to router or code wouldnt work i think it has to do with line 3
