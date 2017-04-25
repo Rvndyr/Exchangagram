@@ -21,7 +21,7 @@ const DB_NAME = './database.sqlite';
 
 
 
-// router.get('/feed/:id', (request, response) => {
+ router.get('/feed/:id', (request, response) => {
 
     exchanger.getActivity(request.params.id).then((data) => {
         response.header('Content-Type', 'application/json');
@@ -29,7 +29,7 @@ const DB_NAME = './database.sqlite';
     }).catch((e) => {
         response.status(401);
     });
-
+ })
 
 
 
