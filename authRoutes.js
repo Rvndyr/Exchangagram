@@ -13,7 +13,7 @@ router.use(parser.json());
 // router.use('/', express.static('./public'));
 
 router.use(expressSession({
-    secret: 'FOBAR'
+    secret: 'HUSH'
 }));
 
 passport.serializeUser((user, done) => {
@@ -35,6 +35,7 @@ passport.use(new LocalStrategy({
     }
     return done(null, { success: true });
 }));
+
 
 
 
