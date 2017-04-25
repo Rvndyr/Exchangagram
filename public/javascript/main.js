@@ -1,6 +1,6 @@
 (function() { // protect the lemmings
+    // render the igPosts
 
-////render all users in the app; following and non following////
     function render(users) {
         console.log("here");
         const container = document.querySelector('.js-users');
@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-content">
                 <span class="card-title">${user.EMAIL}</span>
-                <a class="waves-effect waves-light btn right js-follow">Follow</a>
+                <a class="waves-effect waves-light btn right">Follow</a>
               </div>
               </div>
             </div>
@@ -31,18 +31,6 @@
         }
     };
 
-
-
-
-ajax.GET('/api/users')
-		.then((users) => {
-			render(users);
-    });
-/////////////////////////////////////////////////
-const followBtn = document.querySelector('.js-follow');
-followBtn.addEventListener('click', (e) => {
-  console.log("LOL Im wokring")
-})
 
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
@@ -57,7 +45,7 @@ followBtn.addEventListener('click', (e) => {
         loginPage();
     }
     else if (pageType === 'signup') {
-        signupPage(); 
+        signupPage();
     }
 
     function signupPage() {
@@ -80,7 +68,7 @@ followBtn.addEventListener('click', (e) => {
                 }
             });
         });
-    }; 
+    };
 
     function loginPage() {
         const email = document.querySelector('.js-email');
@@ -98,7 +86,11 @@ followBtn.addEventListener('click', (e) => {
                     window.location.href = '/index.html'
                 }
             });
-        }); 
+        });
     };
-
+    /////////////////////////////////////////////////
+    // const followBtn = document.querySelector('.js-follow');
+    // followBtn.addEventListener('click', (e) => {
+    //   console.log("LOL Im wokring")
+    // })
 })();
