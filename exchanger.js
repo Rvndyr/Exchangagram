@@ -37,7 +37,7 @@ exchanger.getFollowed = (user_id) => {
     return db.all(`SELECT 
                 users.name AS name,
                 users.email AS email,
-                activities.activity_type_id AS activity_type_id,
+                activities.activity_id AS activity_id,
                 activities.activity_payload AS payload
             FROM users
                 INNER JOIN followers ON followers.followed_id = users.id 
@@ -45,14 +45,14 @@ exchanger.getFollowed = (user_id) => {
             WHERE followers.user_id = ${user_id}`)
 };
 
-// Get a specified payload via activities.activity_type_id
-exchanger.getPost = (activity_type_id) => {
+// Get a specified payload via activities.activity_id
+exchanger.getPost = (activity_id) => {
     return db.all(`SELECT
                     users.name AS name,
                     activities.activity_payload AS payload
                 FROM activities
                     INNER JOIN users ON activities.user_id = users.id
-                WHERE activities.activity_type_id = ${activity_type_id}`)
+                WHERE activities.activity_id = ${activity_id}`)
 };
 
 
@@ -72,13 +72,13 @@ exchanger.followUser = (user_id, followed_id) => {
 };
 
 // Edit a activity payload
-exchanger.updatePost = (user_id, activity_type_id, updatedText) => {
-    return db.run(`UPDATE activities SET activity_payload = "${updatedText}" WHERE activity_type_id = ${activity_type_id} and user_id = ${user_id}`)
+exchanger.updatePost = (user_id, activity_id, updatedText) => {
+    return db.run(`UPDATE activities SET activity_payload = "${updatedText}" WHERE activity_id = ${activity_id} and user_id = ${user_id}`)
 };
 
 // Delete a acitivity paylaod
-exchanger.deletePost = (user_id, activity_type_id) => {
-    return db.run(`DELETE FROM activities WHERE activity_type_id = ${activity_typ_id} and user_id = ${user_id}`)
+exchanger.deletePost = (user_id, activity_id) => {
+    return db.run(`DELETE FROM activities WHERE activity_id = ${activity_id} and user_id = ${user_id}`)
 };
 
 // Unfollow a user

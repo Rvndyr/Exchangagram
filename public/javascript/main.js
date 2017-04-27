@@ -38,13 +38,18 @@
         // do some shit
         ajax.GET('/api/feed/:id')
             .then((users) => {
-                // render(users);
+                 render(users);
             });
-    } else if (pageType === 'login') {
+    }
+    else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    } else if (pageType === 'signup') {
+    }
+    else if (pageType === 'signup') {
         signupPage();
+    }   
+    else if (pageType === 'users') {
+   
     }
 
     function signupPage() {
@@ -88,29 +93,5 @@
         });
     };
 
-
-    // GET('/posts')
-    //   .then((posts) => {
-    //     render(posts);
-    //   });
-    //
-    //   const post = document.querySelector('.js-add-post');
-    //
-    //   if (post !== null) {
-    //     post.addEventListener('click', (e) => {
-    //       const input = document.querySelector('.js-todo-body');
-    //       const inputTitle = document.querySelector('.js-todo-title');
-    //       input.setAttribute('disabled', 'disabled');
-    //
-    //       POST('/posts', {
-    //       }).then((posts) => {
-    //         input.removeAttribute('disabled');
-    //         input.value = '';
-    //         inputTitle.removeAttribute('disabled');
-    //         inputTitle.value = '';
-    //         render(posts);
-    //       });
-    //     })
-    //     }
 
 })();
