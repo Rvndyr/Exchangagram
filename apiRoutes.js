@@ -5,9 +5,58 @@ const exchanger = require('./exchanger');
 const db = require('sqlite');
 const DB_NAME = './database.sqlite';
 
+<<<<<<< HEAD
 router.use(parser.json());
 
+=======
+// router.use(parser.json());
+
+// ------------------------------------------------------
+// POST ROUTES
+// ------------------------------------------------------
+
+// Follow a user ##url feeds the user_id + followed_id.
+router.post('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.followed_id, 10);
+    exchanger.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// create a post. ##url feeds the user_id + followed_id. req targets activity table columns
+router.post('/:user_id/post', (req, res, next) => {
+    let args = {};
+    for (const prop in req.body) {
+        args['$' + prop] = req.body[prop];
+    }
+    req.body = args;
+    const user_id = parseInt(req.params.user_id, 10);
+    exchanger.createActivity(user_id, req.body)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                post: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// ------------------------------------------------------
+>>>>>>> upstream/master
 // GET ROUTES
+// ------------------------------------------------------
 
 router.get('/posts', (request, response, next) => {
   exchanger.getUser(request, response).then((data) => {
@@ -30,6 +79,7 @@ router.get('/users', (request, response, next) => {
     });
 
 
+<<<<<<< HEAD
    // next(); had to comment out rich to get /users to work
 
 });
@@ -120,6 +170,86 @@ router.delete('/users/:id', (request, response, next) => {
 
 router.delete('/followers/:followers_id', (request, response, next) => {
     const id = parseInt(request.params.id, 10);
+=======
+// Get a specified post ## url feeds post_id
+router.get('/post/:post_id', (req, res, next) => {
+    const id = parseInt(req.params.post_id, 10);
+    exchanger.getPost(id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                user: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// ------------------------------------------------------
+// PUT ROUTES
+// ------------------------------------------------------
+
+// Edit a post ##url feeds the user_id + post_id. req  posts table column 'descr'
+router.put('/:user_id/update_post/:post_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const post_id = parseInt(req.params.post_id, 10);
+    const updatedText = req.body.activity_payload
+
+    exchanger.updatePost(user_id, post_id, updatedText)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                update: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// ------------------------------------------------------
+// DELETE ROUTES
+// ------------------------------------------------------
+
+// Unfollow a user ## feeds the user_id + followed_id.
+router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.followed_id, 10);
+    exchanger.unfollow(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// Delete a post ##url feeds the user_id + post_id.
+router.delete('/:user_id/delete_post/:post_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const post_id = parseInt(req.params.post_id, 10);
+    exchanger.deletePost(user_id, post_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followed_users: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// // middle ware
+>>>>>>> upstream/master
 
     next();
 });
