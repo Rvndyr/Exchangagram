@@ -30,10 +30,7 @@
             container.appendChild(div)
         }
     };
-    ajax.GET('/api/users')
-        .then((users) => {
-            render(users);
-        });
+
 
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
@@ -41,13 +38,18 @@
         // do some shit
         ajax.GET('/api/feed/:id')
             .then((users) => {
-                // render(users);
+                 render(users);
             });
-    } else if (pageType === 'login') {
+    }
+    else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    } else if (pageType === 'signup') {
+    }
+    else if (pageType === 'signup') {
         signupPage();
+    }   
+    else if (pageType === 'users') {
+   
     }
 
     function signupPage() {
@@ -79,7 +81,6 @@
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             ajax.POST('/auth/login', {
-
                     email: email.value,
                     password: pw.value,
                 })
@@ -89,38 +90,8 @@
                         window.location.href = '/index.html'
                     }
                 });
-
         });
     };
-    // render posts on the feed page
-    // function render(feed) {
-    //     console.log("feed function here!");
-    //     const container = document.querySelector('.js-posts');
-    //     container.innerHTML = '';
-    //     console.log(feed)
-    //     for (const feed of users.users) {
-    //         console.log(feed);
-    //
-    //         const div = document.createElement('div');
-    //         div.innerHTML =
-    //             `
-    //     <div class="row">
-    //       <div class="col s6 m6">
-    //         <div class="card">
-    //           <div class="card-image">
-    //             <img src=${user.ACTIVITY_PAYLOAD}>
-    //             </div>
-    //             <div class="card-content">
-    //             <span class="card-title">${user.EMAIL}</span>
-    //             <a class="waves-effect waves-light btn right">Follow</a>
-    //           </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     `
-    //         div.classList.add('row')
-    //         container.appendChild(div)
-    //     }
 
 
 })();
