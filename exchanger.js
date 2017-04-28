@@ -20,10 +20,16 @@ exchanger.getUsers = () => {
 
 
 // Get all users + their activity
-exchanger.getActivity = (user_id) => {
+exchanger.getActivities = (user_id) => {
     return db.all(`SELECT activity_payload FROM activities 
                     WHERE activities.user_id =${user_id}`);
 };
+
+// get single user activity
+exchanger.getActivity = (user_id, activity_payload) => {
+    return db.run(`SELECT activity_payload From activities
+                    WHERE activities.user_id = ${user_id} and activity_payload =${activity_payload}`);
+}
 
 // Get a specified user via user.id + their activity
 exchanger.getUser = (user_id) => {
@@ -63,7 +69,7 @@ exchanger.createUser = (req) => {
 
 // Create a activity
 exchanger.createActivity = (user_id, request) => {
-    return db.run(`INSERT INTO activities (user_id, activity_payload) values (${user_id}, $activity_payload)`, request)
+    return db.run(`INSERT INTO activities (user_id, activity_payload) values (${user_id}, ${activity_payload})`, request)
 };
 
 // Follow a user
@@ -77,8 +83,8 @@ exchanger.updatePost = (user_id, activity_type_id, updatedText) => {
 };
 
 // Delete a acitivity paylaod
-exchanger.deletePost = (user_id, activity_type_id) => {
-    return db.run(`DELETE FROM activities WHERE activity_type_id = ${activity_typ_id} and user_id = ${user_id}`)
+exchanger.deletePost = (user_id, activity_id) => {
+    return db.run(`DELETE FROM activities WHERE activity_id = ${activity_id} and user_id = ${user_id}`)
 };
 
 // Unfollow a user

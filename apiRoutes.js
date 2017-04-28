@@ -14,6 +14,22 @@ const DB_NAME = './database.sqlite';
 
 // GET ROUTES
 
+// get user post
+// router.get('/:user_id/post', (req, res) => {
+//     console.log(req)
+//     const id = parseInt(req.params.user_id, 10);
+//     exchanger.getActivity(id, req)
+//         .then((data) => {
+//             res.header('content-type', 'application/json');
+//             res.send({
+//                 activity: data
+//             }).catch((e) => {
+//                 res.status(401)
+
+//             })
+//         })
+// })
+
 router.get('/feed/:user_id', (request, response) => {
     exchanger.getActivity(request.params.user_id).then((data) => {
         response.header('Content-Type', 'application/json');
@@ -170,7 +186,11 @@ router.get('/post/:post_id', (req, res, next) => {
 // });
 
 // router.post('/activities', (request, response, next) => {
-
+//     exchanger.createActivity(id, request)
+//     .then((data)=>{
+//         response.header("Content-Type", "application/json");
+//         response.send()
+//     })
 
 //     next();
 // });
@@ -203,14 +223,23 @@ router.get('/post/:post_id', (req, res, next) => {
 
 // // DELETE ROUTES
 
-// had to comment this out rich or public would not serv
-//     next();
-// });
 
-// router.delete('/users/:id', (request, response, next) => {
+
+// router.delete('/user/:activity_id', (request, response) => {
+//     console.log('in delete')
 //     const id = parseInt(request.params.id, 10);
+//     exchanger.deletePost(user_id, activity_id)
+//         .then((data) => {
+//             res.header('Content-Type', 'application/json');
+//             res.send({
+//                 user: data
+//             });
+//         })
+//         .catch((e) => {
+//             console.log(e)
+//             res.status(401);
+//         });
 
-//     next();
 // });
 
 // router.delete('/followers/:followers_id', (request, response, next) => {
