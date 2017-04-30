@@ -1,6 +1,4 @@
-(function() { // protect the lemmings
-    // render the igPosts
-
+(function() { // protect the lemmings // render the igPosts 
     function render(users) {
         console.log("here");
         const container = document.querySelector('.js-users');
@@ -12,62 +10,46 @@
             const div = document.createElement('div');
             div.innerHTML =
                 `
-            <div class="row">
-              <div class="col s6 m6">
-                <div class="card">
-                  <div class="card-image">
-                    <img src=${user.ACTIVITY_PAYLOAD}>
-                    </div>
-                    <div class="card-content">
-                    <span class="card-title">${user.EMAIL}</span>
-                    <a class="waves-effect waves-light btn right js-follow">Follow</a>
-                  </div>
-                  </div>
+        <div class="row">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-image">
                 </div>
+                <div class="card-content">
+                <span class="card-title">${user.EMAIL}</span>
+                <a class="waves-effect waves-light btn right js-dyn" data-user-id="${user.ID}">Follow</a>
               </div>
-            `
+              </div>
+            </div>
+          </div>
+        `
             div.classList.add('row')
             container.appendChild(div)
         }
     };
 
-    // const followBtn = document.querySelector('.js-follow');
-    // followBtn.addEventListener('click', (e) => {
-
-    // })
-
-    // function renderFollowers(followers) {
-    //     console.log(followers);
-    //     const followContianer = document.querySelector('.js-followers')
-    //     followContianer.innerHTML = ""
-    //     for (const follower of followers) {
-    //         console.log(follower)
-    //     }
-    // }
 
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
     if (pageType === 'feed') {
-        // do some shit
-        ajax.GET('/api/feed/:id')
+      /*  ajax.GET('/api/feed/:id')
             .then((users) => {
-                render(users);
-            });
-    } else if (pageType === 'login') {
+                 render(users);
+            }); */
+    }
+    else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    } else if (pageType === 'followers') {
-        ajax.GET('/:user_id/followedusers')
-            .then((followers) => {
-                renderFollowers(followers)
-            })
-    } else if (pageType === 'signup') {
+    }
+    else if (pageType === 'signup') {
         signupPage();
-    } else if (pageType === 'users') {
+    }   
+    else if (pageType === 'users') {
         ajax.GET('/api/users')
             .then((users) => {
-                render(users);
-            })
+                 render(users);
+            });
+        follow();
     }
 
     function signupPage() {
@@ -104,12 +86,29 @@
                 })
                 .then((data) => {
                     console.log('POST auth/login data', data);
+                    localStorage.setItem('user_id', data.Id)
                     if (data.success) {
                         window.location.href = '/index.html'
                     }
                 });
-        });
+        })
     };
 
+    function follow() {
+        const userId = localStorage.getItem('user_id')
+        document.querySelector('body').addEventListener('click', e => {
+            const currEl = e.target;
+            const followerId = currEl.getAttribute('data-user-id');
+            if (!followerId) return;
+            console.log(currEl);
+            if (currEl.classList.contains('js-dyn')) {
+                console.log('clicked!')
+                ajax.POST(`/api/${userId}/follow/${followerId}`)
+                 .then((e) => {
+                    console.log(e)
+                })
+            }   
+        });    
+    };
 
 })();

@@ -21,7 +21,7 @@
             <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li><a href="index.html">Feed</a></li>
                 <li><a href="followers.html">Followers</a></li>
-                <li><a href="collapsible.html">My Profile</a></li>
+                <li><a href="myProfile.html">My Profile</a></li>
                 <li><a href="users.html">Users</a></li>
             </ul>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -34,6 +34,9 @@
     <!--Main container holding all cards and content -->
     <div class="container right cardPosition js-post">
         <!-- IG POSTS -->
+    <input type="file" class="js-fileElem"  accept="image/*" style="display:none">
+    <a href="#" class="waves-effect waves-light btn js-btn js-fileSelect">Post</a>
+ 
         <div class="row">
             <div class="col s12 m7">
                 <div class="card hoverable center-align">
@@ -46,10 +49,11 @@
         </div>
     </div>
     <!-- Closing Container -->
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
-    <script src="javascript/ajax.js" </script>
-        < script src = "javascript/main.js"
-    </script>
+    <script src="javascript/app.js"></script>
+    <script src="javascript/ajax.js"></script>
+    <script src ="javascript/main.js"></script>
 </body>
 
 </html>
