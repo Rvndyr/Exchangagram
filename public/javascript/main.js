@@ -12,25 +12,38 @@
             const div = document.createElement('div');
             div.innerHTML =
                 `
-        <div class="row">
-          <div class="col s6 m6">
-            <div class="card">
-              <div class="card-image">
-                <img src=${user.ACTIVITY_PAYLOAD}>
+            <div class="row">
+              <div class="col s6 m6">
+                <div class="card">
+                  <div class="card-image">
+                    <img src=${user.ACTIVITY_PAYLOAD}>
+                    </div>
+                    <div class="card-content">
+                    <span class="card-title">${user.EMAIL}</span>
+                    <a class="waves-effect waves-light btn right js-follow">Follow</a>
+                  </div>
+                  </div>
                 </div>
-                <div class="card-content">
-                <span class="card-title">${user.EMAIL}</span>
-                <a class="waves-effect waves-light btn right">Follow</a>
               </div>
-              </div>
-            </div>
-          </div>
-        `
+            `
             div.classList.add('row')
             container.appendChild(div)
         }
     };
 
+    // const followBtn = document.querySelector('.js-follow');
+    // followBtn.addEventListener('click', (e) => {
+
+    // })
+
+    // function renderFollowers(followers) {
+    //     console.log(followers);
+    //     const followContianer = document.querySelector('.js-followers')
+    //     followContianer.innerHTML = ""
+    //     for (const follower of followers) {
+    //         console.log(follower)
+    //     }
+    // }
 
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
@@ -38,18 +51,23 @@
         // do some shit
         ajax.GET('/api/feed/:id')
             .then((users) => {
-                 render(users);
+                render(users);
             });
-    }
-    else if (pageType === 'login') {
+    } else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    }
-    else if (pageType === 'signup') {
+    } else if (pageType === 'followers') {
+        ajax.GET('/:user_id/followedusers')
+            .then((followers) => {
+                renderFollowers(followers)
+            })
+    } else if (pageType === 'signup') {
         signupPage();
-    }   
-    else if (pageType === 'users') {
-   
+    } else if (pageType === 'users') {
+        ajax.GET('/api/users')
+            .then((users) => {
+                render(users);
+            })
     }
 
     function signupPage() {
@@ -81,7 +99,7 @@
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             ajax.POST('/auth/login', {
-                    email: email.value,
+                    username: email.value,
                     password: pw.value,
                 })
                 .then((data) => {
