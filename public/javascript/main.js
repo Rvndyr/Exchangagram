@@ -12,20 +12,20 @@
             const div = document.createElement('div');
             div.innerHTML =
                 `
-        <div class="row">
-          <div class="col s6 m6">
-            <div class="card">
-              <div class="card-image">
-                <img src=${user.ACTIVITY_PAYLOAD}>
+            <div class="row">
+              <div class="col s6 m6">
+                <div class="card">
+                  <div class="card-image">
+                    <img src=${user.ACTIVITY_PAYLOAD}>
+                    </div>
+                    <div class="card-content">
+                    <span class="card-title">${user.EMAIL}</span>
+                    <a class="waves-effect waves-light btn right">Follow</a>
+                  </div>
+                  </div>
                 </div>
-                <div class="card-content">
-                <span class="card-title">${user.EMAIL}</span>
-                <a class="waves-effect waves-light btn right">Follow</a>
               </div>
-              </div>
-            </div>
-          </div>
-        `
+            `
             div.classList.add('row')
             container.appendChild(div)
         }
@@ -36,20 +36,21 @@
 
     if (pageType === 'feed') {
         // do some shit
-        ajax.GET('/api/feed/:id')
-            .then((users) => {
-                 render(users);
-            });
-    }
-    else if (pageType === 'login') {
+        ajax.GET('/api/feed/1')
+            .then((activity) => {
+              console.log(activity);
+                renderFeed(activity);
+            })
+    } else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
-    }
-    else if (pageType === 'signup') {
+    } else if (pageType === 'signup') {
         signupPage();
-    }   
-    else if (pageType === 'users') {
-   
+    } else if (pageType === 'users') {
+        ajax.GET('/api/users')
+            .then((users) => {
+                render(users);
+            })
     }
 
     function signupPage() {
@@ -82,7 +83,7 @@
             e.preventDefault();
             ajax.POST('/auth/login', {
                     email: email.value,
-                    password: pw.value,
+                    password: pw.value
                 })
                 .then((data) => {
                     console.log('POST auth/login data', data);
@@ -93,5 +94,33 @@
         });
     };
 
+    // render posts on the index page
+    function renderFeed(activities) {
+        console.log(activities);
+        const container = document.querySelector('.js-posts');
+        container.innerHTML = '';
+        for (const post of activities.activity) {
+            console.log(post);
+
+            const div = document.createElement('div');
+            div.innerHTML =
+                `
+        <div class="row">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">USER TO BE LOGGIN</span>
+              </div>
+              <div class="card-image">
+                <img src=${activities.ACTIVITY_PAYLOAD}>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+            div.classList.add('row')
+            container.appendChild(div)
+        }
+      }
 
 })();

@@ -53,7 +53,25 @@ router.post('/:user_id/post', (req, res, next) => {
 // GET ROUTES
 // ------------------------------------------------------
 
+// get user post
+// router.get('/:user_id/post', (req, res) => {
+//     console.log(req)
+//     const id = parseInt(req.params.user_id, 10);
+//     exchanger.getActivity(id, req)
+//         .then((data) => {
+//             res.header('content-type', 'application/json');
+//             res.send({
+//                 activity: data
+//             }).catch((e) => {
+//                 res.status(401)
+
+//             })
+//         })
+// })
+
 router.get('/feed/:user_id', (request, response) => {
+  console.log("CURRENT USER:  ", request.user);
+  
     exchanger.getActivity(request.params.user_id).then((data) => {
         response.header('Content-Type', 'application/json');
         response.send({ activity: data });
@@ -181,6 +199,7 @@ router.delete('/:user_id/delete_post/:post_id', (req, res, next) => {
             res.status(401);
         });
 });
+
 
 // // middle ware
 

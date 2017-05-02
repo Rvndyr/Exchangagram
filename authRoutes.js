@@ -13,9 +13,9 @@ router.use(parser.json());
 // router.use('/', express.static('./public'));
 
 
-// router.use(expressSession({
-//     secret: 'HUSH'
-// }));
+router.use(expressSession({
+    secret: 'HUSH'
+}));
 
 // router.use(expressSession({
 //     secret: 'FOBAR'
@@ -27,7 +27,7 @@ router.use(parser.json());
 
 
 passport.serializeUser((user, done) => {
-
+    console.log("SERIALIZING USER: ", user)
     done(null, user)
 });
 passport.deserializeUser((user, done) => {
@@ -74,7 +74,7 @@ router.post('/auth/login', (request, response, next) => {
 
 router.use((request, response, next) => {
     console.log('in authRoutes')
-    console.log(request.session, request.user)
+    // console.log(request.session, request.user)
     if (request.isAuthenticated()) {
         next();
     } else {
