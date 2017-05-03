@@ -29,12 +29,11 @@
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
     if (pageType === 'feed') {
-        // do some shit
-        ajax.GET('/api/feed/${user_id}')
+        // do some sa
+        ajax.GET('/api/feed/'+localStorage.getItem('user_id'))
             .then((activity) => {
-              console.log(activity);
-                renderFeed(activity);
-            })
+              renderFeed(activity);
+            });
     } else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
@@ -95,7 +94,7 @@
     function renderFeed(activities) {
         const userId = localStorage.getItem('user_id')
         console.log(activities);
-        const container = document.querySelector('.js-posts');
+        const container = document.querySelector('.js-post');
         container.innerHTML = '';
         for (const post of activities.activity) {
             console.log(post);
@@ -107,7 +106,7 @@
           <div class="col s6 m6">
             <div class="card">
               <div class="card-content">
-                <span class="card-title">${user_id}</span>
+                <span class="card-title">${userId}</span>
               </div>
               <div class="card-image">
                 <img src="${activities.ACTIVITY_PAYLOAD}">
