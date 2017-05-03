@@ -1,5 +1,6 @@
 const express = require('express');
 const parser = require('body-parser');
+const db = require('sqlite');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const exchanger = require('./exchanger');
@@ -35,16 +36,37 @@ passport.deserializeUser((user, done) => {
     done(null, user)
 });
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-}, (email, password, done) => {
+// passport.use(new LocalStrategy({
+//         usernameField: 'email',
+//         passwordField: 'password',
+//     },
+//     (email, password, done) => {
+//         db.get(`SELECT users.id, users.email FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
+//             .then((valid) => {
+//                 console.log("VALID: ", valid);
+//                 if (!valid) return done(null, false);
+//                 return done(null, valid);
+//             })
+//             .catch(err => console.error(err.stack))
+//     }
+// ));
 
-    if (!email || !password) {
-        return done('Not Valid', {}, {});
-    }
-    return done(null, { success: true });
-}));
+passport.use(new LocalStrategy(
+    (username, password, done) => {
+        console.log('IN AUTH STRATEGY')
+        db.get(`SELECT ID, NAME, EMAIL
+               FROM users
+               WHERE EMAIL IS '${username}' AND PASSWORD = '${password}'`)
+            .then((user) => {
+                console.log("USER", user);
+                if (!user) return done(null, false);
+                console.log('LOGIN SUCCESS!!!');
+                return done(null, user);
+            })
+            .catch(err => console.error(err.stack))
+    }));
+
+
 
 
 
@@ -55,9 +77,13 @@ router.use(passport.session());
 // LOG IN
 router.post('/auth/login', (request, response, next) => {
     console.log("here")
+    console.log(request.body)
     passport.authenticate('local', (err, user, info) => {
-        if (err) console.log(err);
-        if (!user) console.log(user);
+        // if (err) console.log(err);
+        // if (!user) console.log("USER: ".user);
+        console.log(err);
+        console.log("USERRRR", user);
+        console.log(info);
 
         request.logIn(user, (err) => {
             if (err) return next(err);
@@ -65,7 +91,8 @@ router.post('/auth/login', (request, response, next) => {
             response.header('Content-Type', 'application/json');
             response.send({
                 success: true,
-                // userId: user.id
+                Id: user.ID,
+                name: user.NAME
             });
         });
     })(request, response, next);
@@ -74,7 +101,7 @@ router.post('/auth/login', (request, response, next) => {
 
 router.use((request, response, next) => {
     console.log('in authRoutes')
-    // console.log(request.session, request.user)
+        // console.log(request.session, request.user)
     if (request.isAuthenticated()) {
         next();
     } else {

@@ -1,6 +1,4 @@
-(function() { // protect the lemmings
-    // render the igPosts
-
+(function() { // protect the lemmings // render the igPosts
     function render(users) {
         console.log("here");
         const container = document.querySelector('.js-users');
@@ -12,18 +10,14 @@
             const div = document.createElement('div');
             div.innerHTML =
                 `
-            <div class="row">
-              <div class="col s6 m6">
-                <div class="card">
-                  <div class="card-image">
-                    <img src=${user.ACTIVITY_PAYLOAD}>
-                    </div>
-                    <div class="card-content">
-                    <span class="card-title">${user.EMAIL}</span>
-                    <a class="waves-effect waves-light btn right">Follow</a>
-                  </div>
-                  </div>
+        <div class="row">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-image">
                 </div>
+                <div class="card-content">
+                <span class="card-title">${user.EMAIL}</span>
+                <a class="waves-effect waves-light btn right js-dyn" data-user-id="${user.ID}">Follow</a>
               </div>
             `
             div.classList.add('row')
@@ -36,7 +30,7 @@
 
     if (pageType === 'feed') {
         // do some shit
-        ajax.GET('/api/feed/1')
+        ajax.GET('/api/feed/${user_id}')
             .then((activity) => {
               console.log(activity);
                 renderFeed(activity);
@@ -46,11 +40,13 @@
         loginPage();
     } else if (pageType === 'signup') {
         signupPage();
-    } else if (pageType === 'users') {
+    }
+    else if (pageType === 'users') {
         ajax.GET('/api/users')
             .then((users) => {
-                render(users);
-            })
+                 render(users);
+            });
+        follow();
     }
 
     function signupPage() {
@@ -82,20 +78,22 @@
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             ajax.POST('/auth/login', {
-                    email: email.value,
-                    password: pw.value
+                    username: email.value,
+                    password: pw.value,
                 })
                 .then((data) => {
                     console.log('POST auth/login data', data);
+                    localStorage.setItem('user_id', data.Id)
                     if (data.success) {
                         window.location.href = '/index.html'
                     }
                 });
-        });
+        })
     };
 
     // render posts on the index page
     function renderFeed(activities) {
+        const userId = localStorage.getItem('user_id')
         console.log(activities);
         const container = document.querySelector('.js-posts');
         container.innerHTML = '';
@@ -109,10 +107,10 @@
           <div class="col s6 m6">
             <div class="card">
               <div class="card-content">
-                <span class="card-title">USER TO BE LOGGIN</span>
+                <span class="card-title">${user_id}</span>
               </div>
               <div class="card-image">
-                <img src=${activities.ACTIVITY_PAYLOAD}>
+                <img src="${activities.ACTIVITY_PAYLOAD}">
                 </div>
               </div>
             </div>
@@ -122,5 +120,28 @@
             container.appendChild(div)
         }
       }
+    function follow() {
+        const userId = localStorage.getItem('user_id')
+        document.querySelector('body').addEventListener('click', e => {
+            const currEl = e.target;
+            const followerId = currEl.getAttribute('data-user-id');
+            if (!followerId) return;
+            console.log(currEl);
+            if (currEl.classList.contains('js-dyn')) {
+                console.log('clicked!')
+                ajax.POST(`/api/${userId}/follow/${followerId}`)
+                 .then((e) => {
+                    console.log(e)
+                })
+            }
+        });
+    };
+
+
+
+
+
+
+
 
 })();

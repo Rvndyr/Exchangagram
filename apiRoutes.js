@@ -29,13 +29,36 @@ router.post('/:user_id/follow/:followed_id', (req, res, next) => {
 });
 
 // create a post. ##url feeds the user_id + followed_id. req targets activity table columns
-router.post('/:user_id/post', (req, res, next) => {
+/* router.post('/:user_id/post', (req, res, next) => {
     let args = {};
     for (const prop in req.body) {
         args['$' + prop] = req.body[prop];
     }
     req.body = args;
     const user_id = parseInt(req.params.user_id, 10);
+    exchanger.createActivity(user_id, req.body)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                post: data
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+}); */
+
+
+// create a post. ##url feeds the user_id + followed_id. req targets posts table columns
+router.post('/:user_id/post', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    console.log('----------- userId', user_id);
+    if (isNaN(user_id)) {
+        res.status(403);
+        res.send({success: false});
+        return;
+    }
     exchanger.createActivity(user_id, req.body)
         .then((data) => {
             res.header('Content-Type', 'application/json');
@@ -205,8 +228,8 @@ router.delete('/:user_id/delete_post/:post_id', (req, res, next) => {
 
 // // had to comment this out rich or public would not serve
 router.use((request, response) => {
-    response.header('Content-Type', 'application/json')
-    response.send(data);
+    //response.header('Content-Type', 'application/json')
+    //response.send(data);
 });
 
 

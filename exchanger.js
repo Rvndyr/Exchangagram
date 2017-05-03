@@ -62,13 +62,13 @@ exchanger.createUser = (req) => {
 };
 
 // Create a activity
-exchanger.createActivity = (user_id, request) => {
-    return db.run(`INSERT INTO activities (user_id, activity_payload) values (${user_id}, $activity_payload)`, request)
+exchanger.createActivity = (user_id, req) => {
+    return db.run(`INSERT INTO activities (user_id, activity_payload) values (?,?)`, user_id, req.activity_payload)
 };
 
 // Follow a user
 exchanger.followUser = (user_id, followed_id) => {
-    return db.run(`INSERT INTO followers (user_id, follower_id) VALUES (${user_id}, ${followed_id})`)
+    return db.run(`INSERT INTO followers (user_id, followed_id) VALUES (${user_id}, ${followed_id})`)
 };
 
 // Edit a activity payload
