@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title>Exchangagram</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/accordion.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+
   <!--Import Google Icon Font-->
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import main.css-->
@@ -10,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 </head>
-<body id="app">
+<body data-template-name="profile">
 
 	<nav>
     <div class="nav-wrapper teal lighten-2 ">
@@ -31,18 +33,10 @@
     </div>
   </nav>
 
+
 <!--Main container holding all cards and content -->
-  <div class="container right cardPosition">
-      <!-- Profile page icon and content -->
-			<div class="ui card">
-  			<div class="image">
-    		<img src="/images/avatar2/large/elyse.png">
-  		</div>
-  		<div class="content">
-    		<a class="header">Elyse</a>
-  		</div>
-		</div>
-      </div>
+  <div class="container right cardPosition js-profileFeed">
+
 	</div> <!-- Closing Container -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
     <script src="javascript/ajax.js"></script>

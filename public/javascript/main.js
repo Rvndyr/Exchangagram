@@ -29,17 +29,28 @@
     const pageType = document.querySelector('body').getAttribute('data-template-name');
 
     if (pageType === 'feed') {
-        // do some sa
-        ajax.GET('/api/feed/'+localStorage.getItem('user_id'))
-            .then((activity) => {
-              renderFeed(activity);
-            });
+          ajax.GET('api/user/'+localStorage.getItem('user_id'))
+          .then((activities)=> {
+            renderMyFeed(activities);
+          });
+          ajax.GET(`api/${localStorage.getItem('user_id')}/followedusers`)
+              .then((activities)=> {
+                console.log("2");
+                renderFeed(activities);
+              });
+
     } else if (pageType === 'login') {
         // do some other stuff etc
         loginPage();
     } else if (pageType === 'signup') {
         signupPage();
     }
+    else if (pageType === 'profile') {
+      ajax.GET('/api/feed/'+localStorage.getItem('user_id'))
+          .then((activity) => {
+            renderMyFeed(activity);
+    });
+  }
     else if (pageType === 'users') {
         ajax.GET('/api/users')
             .then((users) => {
@@ -90,11 +101,104 @@
         })
     };
 
-    // render posts on the index page
-    function renderFeed(activities) {
+    // render posts on the myProfile page
+    function renderMyFeed(activities) {
         const userId = localStorage.getItem('user_id')
         console.log(activities);
-        const container = document.querySelector('.js-post');
+        if(document.querySelector('.js-profileFeed') === null){
+           const container = document.querySelector('.js-Feed');
+
+           container.innerHTML = '';
+           console.log(activities);
+           for (const post of activities.user) {
+               console.log(post);
+
+               const div = document.createElement('div');
+               div.innerHTML =
+                   `
+           <div class="row">
+             <div class="col s6 m6">
+               <div class="card">
+                 <div class="card-content">
+                   <span class="card-title">${userId}</span>
+                 </div>
+                 <div class="card-image">
+                   <img src="${post.ACTIVITY_PAYLOAD}">
+                   </div>
+                 </div>
+               </div>
+             </div>
+           `
+               div.classList.add('row')
+               container.appendChild(div)
+               console.log(post.ACTIVITY_PAYLOAD);
+           }
+        }
+        else {
+          const container = document.querySelector('.js-profileFeed');
+          console.log(container);
+          container.innerHTML = '';
+          for (const post of activities.activity) {
+              console.log(post);
+
+              const div = document.createElement('div');
+              div.innerHTML =
+                  `
+          <div class="row">
+            <div class="col s6 m6">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">${userId}</span>
+                </div>
+                <div class="card-image">
+                  <img src="${post.ACTIVITY_PAYLOAD}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+              div.classList.add('row')
+              container.appendChild(div)
+              console.log(post.ACTIVITY_PAYLOAD);
+          }
+
+        }
+      }
+
+      function renderFeed (activities) {
+        const userId = localStorage.getItem('user_id')
+        console.log(activities);
+        const container = document.querySelector('.js-Feed');
+        container.innerHTML = '';
+        for (const post of activities.followed_users) {
+            console.log(post);
+
+            const div = document.createElement('div');
+            div.innerHTML =
+                `
+        <div class="row">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">${userId}</span>
+              </div>
+              <div class="card-image">
+                <img src="${post.ACTIVITY_PAYLOAD}">
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+            div.classList.add('row')
+            container.appendChild(div)
+
+      }
+    }
+
+      function renderFollowers (activities) {
+        const userId = localStorage.getItem('user_id')
+        console.log(activities);
+        const container = document.querySelector('.js-Followers');
         container.innerHTML = '';
         for (const post of activities.activity) {
             console.log(post);
@@ -109,7 +213,7 @@
                 <span class="card-title">${userId}</span>
               </div>
               <div class="card-image">
-                <img src="${activities.ACTIVITY_PAYLOAD}">
+                <img src="${post.ACTIVITY_PAYLOAD}">
                 </div>
               </div>
             </div>
@@ -117,8 +221,9 @@
         `
             div.classList.add('row')
             container.appendChild(div)
-        }
+}
       }
+
     function follow() {
         const userId = localStorage.getItem('user_id')
         document.querySelector('body').addEventListener('click', e => {
@@ -135,12 +240,5 @@
             }
         });
     };
-
-
-
-
-
-
-
 
 })();
