@@ -8,7 +8,7 @@ To create this website we used Materialize on the Front End, and Node to run the
 clone this repo into your desktop, NPM install, and NPM start!
 First - signup and submit a form to create your account, and simply upload a picture! :) you can see your posts in "my Profile" tab or see followers in the Followers tab. 
 # status:
-this project is still being worked on! we are currently rewriting our render functions and changing some front end to make it more user friendly.
+This project is no longer being worked on. However, it still should work :)
 
 # Collaborators:
 Richard Hill (Backend - API Routes); Jose Marin (Backend - database and login); Randy Rodriguez (Frontend)
